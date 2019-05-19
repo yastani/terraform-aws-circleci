@@ -9,11 +9,8 @@ anchors:
     steps:
       - checkout
       - run:
-          name: .terraformrc_create_step
-          command: |
-            echo 'credentials "app.terraform.io" {' > ~/.terraformrc
-            echo '  token = "'$TERRAFORM_TOKEN'"' >> ~/.terraformrc
-            echo '}' >> ~/.terraformrc
+          name: init_step
+          command: terraform init
       - run:
           name: select_workspace_step
           command: |
@@ -26,9 +23,6 @@ anchors:
             else exit 1
             fi
             terraform workspace select $WORKSPACE
-      - run:
-          name: init_step
-          command: terraform init
       - run:
           name: plan_step
           command: terraform plan
