@@ -9,8 +9,12 @@ anchors:
     steps:
       - checkout
       - run:
-          name: version_step
-          command: terraform version
+          name: .terraformrc_create_step
+          command: cat << EOS > ~/.terraformrc
+          credentials "app.terraform.io" {
+            token = "$TERRAFORM_TOKEN"
+          }
+          EOS
       - run:
           name: init_step
           command: terraform init
