@@ -10,7 +10,7 @@ anchors:
       - checkout
       - run:
           name: init_step
-          command: terraform init
+          command: terraform init -input=false
       - run:
           name: select_workspace_step
           command: |
