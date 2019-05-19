@@ -9,6 +9,9 @@ anchors:
     steps:
       - checkout
       - run:
+          name: version_step
+          command: terraform version
+      - run:
           name: init_step
           command: terraform init
       - run:
