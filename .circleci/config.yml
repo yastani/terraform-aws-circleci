@@ -15,9 +15,6 @@ anchors:
             echo '  token = "'$TERRAFORM_TOKEN'"' >> ~/.terraformrc
             echo '}' >> ~/.terraformrc
       - run:
-          name: init_step
-          command: terraform init
-      - run:
           name: select_workspace_step
           command: |
             if [ "${CIRCLE_BRANCH}" == "develop" ]; then
@@ -29,6 +26,9 @@ anchors:
             else exit 1
             fi
             terraform workspace select $WORKSPACE
+      - run:
+          name: init_step
+          command: terraform init
       - run:
           name: plan_step
           command: terraform plan
