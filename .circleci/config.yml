@@ -10,11 +10,12 @@ anchors:
       - checkout
       - run:
           name: .terraformrc_create_step
-          command: cat << EOS > ~/.terraformrc
-          credentials "app.terraform.io" {
-            token = "$TERRAFORM_TOKEN"
-          }
-          EOS
+          command: |
+            cat \<\< EOS \> ~/.terraformrc
+            credentials "app.terraform.io" {
+              token = "$TERRAFORM_TOKEN"
+            }
+            EOS
       - run:
           name: init_step
           command: terraform init
