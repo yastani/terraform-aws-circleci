@@ -2,7 +2,7 @@ version: 2.1
 executors:
   default:
     docker:
-      - image: docker pull hashicorp/terraform:0.11.14
+      - image: hashicorp/terraform:0.11.14
     working_directory: ~
 anchors:
   - &anchor-terraform
