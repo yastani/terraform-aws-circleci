@@ -1,0 +1,42 @@
+version: 2.1
+executors:
+  default:
+    docker:
+      - image: docker pull hashicorp/terraform:0.11.14
+    working_directory: ~
+anchors:
+  - &anchor-terraform
+    steps:
+      - checkout
+      - run:
+          name: init_step
+          command: terraform init
+      - run:
+          name: select_workspace_step
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "develop" ]; then
+              WORKSPACE="yastani-dev"
+            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
+              WORKSPACE="yastani-stg"
+            elif [ "${CIRCLE_BRANCH}" == "production" ]; then
+              WORKSPACE="yastani-prd"
+            else exit 1
+            fi
+            terraform workspace select $WORKSPACE
+      - run:
+          name: plan_step
+          command: terraform plan
+      - run:
+          name: apply_step
+          command: terraform apply --auto-approve
+jobs:
+  terraform-dev:
+    executor:
+      name: default
+    <<: *anchor-terraform
+workflows:
+  version: 2
+  plan_to_deploy:
+    jobs:
+      - terraform-dev:
+          context: yastani-dev
