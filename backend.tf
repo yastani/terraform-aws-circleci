@@ -7,7 +7,7 @@ terraform {
 
   backend "s3" {
     bucket = "yastani-terraform-tfstates"
-    key = "terraform.tfstate"
+    key    = "terraform.tfstate"
     region = "ap-northeast-1"
   }
 }
